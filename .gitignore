@@ -8,6 +8,7 @@ out/
 # Production
 build/
 dist/
+.vercel/
 
 # Environment Variables (WAJIB - Biar rahasia aman)
 .env
