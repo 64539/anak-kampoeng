@@ -25,7 +25,7 @@ const Navbar = ({ session }: NavbarProps) => {
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-black/90 backdrop-blur-lg border-b border-gold/20 py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center space-x-2">
@@ -45,19 +45,19 @@ const Navbar = ({ session }: NavbarProps) => {
           </div>
 
           {/* Auth Button */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 ml-auto pr-4 md:pr-0">
             {!session ? (
-              <Link href="/login" className="btn-gold-outline text-xs py-2 px-6">
+              <Link href="/login" className="btn-gold-outline text-[10px] sm:text-xs py-2 px-4 sm:px-6">
                 Masuk ke Garasi
               </Link>
             ) : (
               <div className="relative">
                 <button 
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center gap-2 text-gold font-bold text-xs uppercase tracking-widest bg-gold/10 px-4 py-2 rounded border border-gold/20 hover:bg-gold/20 transition-all"
+                  className="flex items-center gap-2 text-gold font-bold text-[10px] sm:text-xs uppercase tracking-widest bg-gold/10 px-3 sm:px-4 py-2 rounded border border-gold/20 hover:bg-gold/20 transition-all max-w-[160px] sm:max-w-none truncate"
                 >
                   <User size={16} />
-                  {session.user.name.split(' ')[0]}
+                  <span className="truncate">{session.user.name.split(' ')[0]}</span>
                   <ChevronDown size={14} className={`transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
                 </button>
 
