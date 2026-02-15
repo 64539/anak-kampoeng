@@ -12,10 +12,12 @@ const Wawasan = ({ items }: WawasanProps) => {
   return (
     <section id="wawasan" className="py-24 bg-matte relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-4 px-4 sm:px-6">
-          <div className="text-center md:text-left">
-            <h2 className="text-gold uppercase tracking-[0.3em] font-bold text-xs sm:text-sm mb-4">Edukasi Otomotif</h2>
-            <h3 className="text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-tighter mt-4 md:mt-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 mb-16 px-4 sm:px-6">
+          <div className="flex flex-col items-center md:items-start gap-3 text-center md:text-left">
+            <h2 className="text-gold uppercase tracking-[0.3em] font-bold text-xs sm:text-sm">
+              Edukasi Otomotif
+            </h2>
+            <h3 className="text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-tighter">
               Wawasan <span className="text-gold">Mesin</span>
             </h3>
           </div>
