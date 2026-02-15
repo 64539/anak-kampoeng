@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { users, gallery, insights } from "@/db/schema";
 import { sql } from "drizzle-orm";
 
+export const revalidate = 0;
+
 export default async function AdminDashboard() {
   const [userCount] = await db.select({ count: sql`count(*)` }).from(users);
   const [galleryCount] = await db.select({ count: sql`count(*)` }).from(gallery);

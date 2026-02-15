@@ -1,7 +1,10 @@
 import { db } from "@/lib/db";
 import { insights } from "@/db/schema";
 import Link from "next/link";
-import { FileText, Edit, Trash2, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
+import AdminInsightsList from "./AdminInsightsList";
+
+export const revalidate = 0;
 
 export default async function InsightsManagementPage() {
   const items = await db.select().from(insights);
@@ -23,61 +26,7 @@ export default async function InsightsManagementPage() {
           <p className="text-gray-400 font-bold uppercase tracking-widest">Belum ada ilmu yang dibagikan, Beh.</p>
         </div>
       ) : (
-        <>
-          {/* Desktop Table */}
-          <div className="hidden md:block glass-card overflow-hidden border-gold/10">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-white/5 border-b border-gold/10">
-                  <th className="p-4 text-xs font-bold uppercase tracking-widest text-gold">Judul</th>
-                  <th className="p-4 text-xs font-bold uppercase tracking-widest text-gold">Kategori</th>
-                  <th className="p-4 text-xs font-bold uppercase tracking-widest text-gold">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((article) => (
-                  <tr key={article.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="p-4 font-bold">{article.title}</td>
-                    <td className="p-4 text-gray-400">{article.category}</td>
-                    <td className="p-4">
-                      <div className="flex items-center gap-2">
-                        <button className="px-3 py-2 bg-white/10 hover:bg-white/20 rounded text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-2">
-                          <Edit size={12} /> Edit
-                        </button>
-                        <button className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 rounded text-[10px] font-black uppercase tracking-widest text-red-300 flex items-center gap-2">
-                          <Trash2 size={12} /> Hapus
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Mobile Card List */}
-          <div className="md:hidden grid grid-cols-1 gap-4">
-            {items.map((article) => (
-              <div key={article.id} className="glass-card p-4 border-gold/10">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <FileText size={16} className="text-gold" />
-                    <span className="font-black text-sm uppercase tracking-tight">{article.title}</span>
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gold/60">{article.category}</span>
-                </div>
-                <div className="mt-3 flex items-center gap-2">
-                  <button className="px-3 py-1 bg-white/10 rounded text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1">
-                    <Edit size={12} /> Edit
-                  </button>
-                  <button className="px-3 py-1 bg-red-500/20 rounded text-[10px] font-black uppercase tracking-widest text-red-300 flex items-center gap-1">
-                    <Trash2 size={12} /> Hapus
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
+        <AdminInsightsList items={items as any} />
       )}
     </div>
   );

@@ -2,6 +2,8 @@ import { db } from "@/lib/db";
 import { users } from "@/db/schema";
 import { CopyButton } from "@/components/CopyButton";
 
+export const revalidate = 0;
+
 export default async function UserManagement() {
   const allUsers = await db.select().from(users).orderBy(users.createdAt);
   

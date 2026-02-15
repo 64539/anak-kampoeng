@@ -7,6 +7,8 @@ import { ChevronLeft, FileText, Image as ImageIcon, Upload } from "lucide-react"
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+export const revalidate = 0;
+
 export default function NewInsightPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);

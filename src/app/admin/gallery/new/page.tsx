@@ -7,6 +7,8 @@ import { ChevronLeft, Image as ImageIcon, Video, Link as LinkIcon, Upload } from
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+export const revalidate = 0;
+
 export default function NewGalleryPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
