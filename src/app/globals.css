@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 10, 10;
+  --background-end-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
+  font-family: 'Inter', sans-serif;
+}
+
+@layer components {
+  .carbon-texture {
+    background: 
+      linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+      linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+      linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+      linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+      linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+      linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+    background-size: 20px 20px;
+    background-color: #131313;
+  }
+
+  .glass-card {
+    @apply bg-black/40 backdrop-blur-md border border-white/10;
+  }
+
+  .gold-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold-dark via-gold to-gold-light;
+  }
+
+  .btn-gold {
+    @apply bg-gold hover:bg-gold-dark text-black font-bold py-3 px-8 rounded-sm transition-all duration-300 uppercase tracking-wider;
+  }
+
+  .btn-gold-outline {
+    @apply border border-gold text-gold hover:bg-gold hover:text-black font-bold py-2 px-6 rounded-sm transition-all duration-300 uppercase tracking-wider;
+  }
+}

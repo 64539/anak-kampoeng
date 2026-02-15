@@ -1,0 +1,24 @@
+# Dependencies (WAJIB)
+node_modules/
+
+# Next.js Build Output (WAJIB - Ini yang bikin error 100MB tadi)
+.next/
+out/
+
+# Production
+build/
+dist/
+
+# Environment Variables (WAJIB - Biar rahasia aman)
+.env
+.env*.local
+
+# Debug & Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System files
+.DS_Store
+Thumbs.db
