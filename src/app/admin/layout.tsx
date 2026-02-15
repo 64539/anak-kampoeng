@@ -95,20 +95,20 @@ export default async function AdminLayout({
         </main>
 
         {/* Bottom Navigation (Mobile) */}
-        <nav className="fixed bottom-0 left-0 right-0 md:hidden bg-matte-lighter border-t border-gold/10 flex justify-around py-3">
-          <Link href="/admin/dashboard" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+        <nav className="fixed bottom-0 left-0 right-0 md:hidden bg-matte-lighter border-t border-gold/10 flex justify-around items-center py-3 z-[999] pointer-events-auto">
+          <Link href="/admin/dashboard" className="flex flex-col items-center justify-center gap-1 text-[10px] font-black uppercase tracking-widest text-gray-400">
             <LayoutDashboard size={18} className="text-gold" />
             <span>Dashboard</span>
           </Link>
-          <Link href="/admin/users" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+          <Link href="/admin/users" className="flex flex-col items-center justify-center gap-1 text-[10px] font-black uppercase tracking-widest text-gray-400">
             <Users size={18} className="text-gold" />
             <span>Users</span>
           </Link>
-          <Link href="/admin/gallery" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+          <Link href="/admin/gallery" className="flex flex-col items-center justify-center gap-1 text-[10px] font-black uppercase tracking-widest text-gray-400">
             <ImageIcon size={18} className="text-gold" />
             <span>Galeri</span>
           </Link>
-          <Link href="/admin/insights" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+          <Link href="/admin/insights" className="flex flex-col items-center justify-center gap-1 text-[10px] font-black uppercase tracking-widest text-gray-400">
             <FileText size={18} className="text-gold" />
             <span>Wawasan</span>
           </Link>
