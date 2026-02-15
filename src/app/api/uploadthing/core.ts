@@ -13,9 +13,7 @@ export const ourFileRouter = {
       if (!session || session.user.role !== "ADMIN") throw new Error("Unauthorized");
       return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
-      console.log("Upload complete for userId:", metadata.userId);
-      console.log("File URL", file.url);
+    .onUploadComplete(async ({ metadata }) => {
       return { uploadedBy: metadata.userId };
     }),
   insightImage: f({

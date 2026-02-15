@@ -6,6 +6,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
 import { eq } from "drizzle-orm";
+import { cookies } from "next/headers";
+import { extractYouTubeVideoId, buildYouTubeThumbnailUrl, isSupportedEmbedUrl } from "@/lib/media";
 
 export async function createGalleryAction(formData: FormData) {
   const session = await getSession();
@@ -13,15 +15,42 @@ export async function createGalleryAction(formData: FormData) {
     throw new Error("Unauthorized");
   }
 
-  const title = formData.get("title") as string;
-  const sourceType = formData.get("sourceType") as string; // 'image', 'video'
-  const mediaType = formData.get("mediaType") as string; // 'upload', 'embed'
-  const mediaUrl = formData.get("mediaUrl") as string;
-  const thumbnailUrl = formData.get("thumbnailUrl") as string;
-  const category = formData.get("category") as string;
+  const title = (formData.get("title") as string) || "";
+  const sourceType = (formData.get("sourceType") as string) || "";
+  const mediaType = (formData.get("mediaType") as string) || "";
+  const mediaUrl = (formData.get("mediaUrl") as string) || "";
+  let thumbnailUrl = (formData.get("thumbnailUrl") as string) || "";
+  const category = (formData.get("category") as string) || "";
+
+  const rateCookie = cookies().get("gallery_last_create_at")?.value;
+  if (rateCookie) {
+    const last = Number(rateCookie);
+    if (!Number.isNaN(last)) {
+      const diff = Date.now() - last;
+      if (diff < 10_000) {
+        throw new Error("Terlalu banyak upload dalam waktu singkat. Coba lagi beberapa detik lagi.");
+      }
+    }
+  }
 
   if (!title || !sourceType || !mediaType || !mediaUrl) {
     throw new Error("Data tidak lengkap");
+  }
+
+  if (mediaType === "embed") {
+    if (!isSupportedEmbedUrl(mediaUrl)) {
+      throw new Error("URL embed tidak didukung. Gunakan YouTube atau TikTok.");
+    }
+    if (sourceType === "video" && !thumbnailUrl && extractYouTubeVideoId(mediaUrl)) {
+      const videoId = extractYouTubeVideoId(mediaUrl);
+      if (videoId) {
+        thumbnailUrl = buildYouTubeThumbnailUrl(videoId);
+      }
+    }
+  }
+
+  if (mediaType === "upload" && sourceType === "video" && !thumbnailUrl) {
+    throw new Error("Thumbnail video wajib diisi untuk upload manual.");
   }
 
   await db.insert(gallery).values({
@@ -32,6 +61,8 @@ export async function createGalleryAction(formData: FormData) {
     thumbnailUrl: thumbnailUrl || null,
     category: category || "Custom",
   });
+
+  cookies().set("gallery_last_create_at", String(Date.now()));
 
   revalidatePath("/");
   revalidatePath("/admin");
@@ -47,12 +78,12 @@ export async function updateGalleryAction(formData: FormData) {
   }
 
   const id = Number(formData.get("id"));
-  const title = formData.get("title") as string;
-  const sourceType = formData.get("sourceType") as string;
-  const mediaType = formData.get("mediaType") as string;
-  const mediaUrl = formData.get("mediaUrl") as string;
-  const thumbnailUrl = formData.get("thumbnailUrl") as string;
-  const category = formData.get("category") as string;
+  const title = (formData.get("title") as string) || "";
+  const sourceType = (formData.get("sourceType") as string) || "";
+  const mediaType = (formData.get("mediaType") as string) || "";
+  const mediaUrl = (formData.get("mediaUrl") as string) || "";
+  let thumbnailUrl = (formData.get("thumbnailUrl") as string) || "";
+  const category = (formData.get("category") as string) || "";
 
   if (!id || Number.isNaN(id)) {
     throw new Error("ID karya tidak valid");
@@ -60,6 +91,29 @@ export async function updateGalleryAction(formData: FormData) {
 
   if (!title || !sourceType || !mediaType || !mediaUrl) {
     throw new Error("Data tidak lengkap");
+  }
+
+  const existingList = await db.select().from(gallery).where(eq(gallery.id, id));
+  const existing = existingList[0];
+
+  if (!existing) {
+    throw new Error("Karya tidak ditemukan");
+  }
+
+  if (mediaType === "embed") {
+    if (!isSupportedEmbedUrl(mediaUrl)) {
+      throw new Error("URL embed tidak didukung. Gunakan YouTube atau TikTok.");
+    }
+    if (sourceType === "video" && !thumbnailUrl && extractYouTubeVideoId(mediaUrl)) {
+      const videoId = extractYouTubeVideoId(mediaUrl);
+      if (videoId) {
+        thumbnailUrl = buildYouTubeThumbnailUrl(videoId);
+      }
+    }
+  }
+
+  if (mediaType === "upload" && sourceType === "video" && !thumbnailUrl) {
+    throw new Error("Thumbnail video wajib diisi untuk upload manual.");
   }
 
   await db

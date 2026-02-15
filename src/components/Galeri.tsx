@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Play, Image as ImageIcon, Video, X } from "lucide-react";
+import VideoPlayer from "./VideoPlayer";
 
 interface GaleriProps {
   items: any[];
@@ -132,20 +133,14 @@ const Galeri = ({ items }: GaleriProps) => {
             >
               {selectedWork.sourceType === 'video' ? (
                 <div className="w-full h-full bg-black">
-                  {selectedWork.mediaType === 'embed' ? (
-                    <iframe 
-                      src={selectedWork.mediaUrl.replace('watch?v=', 'embed/')} 
-                      className="w-full h-full"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <video 
-                      src={selectedWork.mediaUrl} 
-                      controls 
-                      autoPlay 
-                      className="w-full h-full"
-                    />
-                  )}
+                  <VideoPlayer
+                    sourceType="video"
+                    mediaType={selectedWork.mediaType}
+                    mediaUrl={selectedWork.mediaUrl}
+                    thumbnailUrl={selectedWork.thumbnailUrl}
+                    title={selectedWork.title}
+                    autoPlay
+                  />
                 </div>
               ) : (
                 <img 

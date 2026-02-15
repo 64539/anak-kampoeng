@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node scripts/wa-validation.test.js"
+    "test": "node scripts/wa-validation.test.js && node scripts/media-utils.test.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",

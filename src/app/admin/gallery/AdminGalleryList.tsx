@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Image as ImageIcon, Video, Edit, Trash2 } from "lucide-react";
 import { updateGalleryAction, deleteGalleryAction } from "@/actions/gallery";
+import { isSupportedEmbedUrl } from "@/lib/media";
 
 interface GalleryItem {
   id: number;
@@ -48,9 +49,26 @@ export default function AdminGalleryList({ items }: AdminGalleryListProps) {
     event.preventDefault();
     if (!editingItem) return;
 
-    setIsSubmitting(true);
-
     const formData = new FormData(event.currentTarget);
+    const nextMediaType = (formData.get("mediaType") as string) || editingItem.mediaType;
+    const nextMediaUrl = (formData.get("mediaUrl") as string) || "";
+
+    if (nextMediaType === "embed" && !isSupportedEmbedUrl(nextMediaUrl)) {
+      alert("URL embed tidak valid. Gunakan YouTube atau TikTok.");
+      return;
+    }
+
+    const mediaChanged = nextMediaUrl !== editingItem.mediaUrl || nextMediaType !== editingItem.mediaType;
+    if (mediaChanged) {
+      const confirmed = confirm(
+        "Anda akan mengganti sumber media utama. File lama tidak akan digunakan lagi. Lanjutkan?"
+      );
+      if (!confirmed) {
+        return;
+      }
+    }
+
+    setIsSubmitting(true);
 
     try {
       await updateGalleryAction(formData);
@@ -151,7 +169,32 @@ export default function AdminGalleryList({ items }: AdminGalleryListProps) {
             <form onSubmit={handleEditSubmit} className="space-y-4">
               <input type="hidden" name="id" value={editingItem.id} />
               <input type="hidden" name="sourceType" value={editingItem.sourceType} />
-              <input type="hidden" name="mediaType" value={editingItem.mediaType} />
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Sumber Media</label>
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+                    <input
+                      type="radio"
+                      name="mediaType"
+                      value="upload"
+                      defaultChecked={editingItem.mediaType === "upload"}
+                      className="mr-1"
+                    />
+                    Upload Manual
+                  </label>
+                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+                    <input
+                      type="radio"
+                      name="mediaType"
+                      value="embed"
+                      defaultChecked={editingItem.mediaType === "embed"}
+                      className="mr-1"
+                    />
+                    Embed Link
+                  </label>
+                </div>
+              </div>
 
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Judul Karya</label>
@@ -222,4 +265,3 @@ export default function AdminGalleryList({ items }: AdminGalleryListProps) {
     </>
   );
 }
-
