@@ -13,10 +13,12 @@ export default async function AdminDashboard() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-black mb-2 uppercase tracking-tighter">Halo, <span className="text-gold">Koko Mechanic!</span></h1>
+          <h1 className="text-2xl md:text-4xl font-black mb-2 uppercase tracking-tighter">
+            Halo, <span className="text-gold">Koko Mechanic!</span>
+          </h1>
           <p className="text-gray-500 font-medium">Ini adalah pusat kendali untuk mengelola operasional garasi digital Anda.</p>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded border border-white/10 w-fit">
+        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded border border-white/10 w-full md:w-auto justify-between md:justify-center">
           <div className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
           <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
             Database Connected
@@ -46,7 +48,7 @@ export default async function AdminDashboard() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="glass-card p-6 border-gold/10">
           <div className="flex items-center justify-between mb-4">
             <Users className="text-gold" size={24} />

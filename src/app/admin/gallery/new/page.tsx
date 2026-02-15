@@ -39,7 +39,7 @@ export default function NewGalleryPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-20">
+    <div className="max-w-4xl mx-auto space-y-8 pb-24 px-4">
       <div className="flex items-center gap-4">
         <Link href="/admin" className="p-2 bg-white/5 hover:bg-white/10 rounded-full transition-colors">
           <ChevronLeft size={24} className="text-gold" />
@@ -51,7 +51,7 @@ export default function NewGalleryPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="glass-card p-8 border-gold/10 space-y-6">
+        <div className="glass-card p-6 md:p-8 border-gold/10 space-y-6">
           {/* TIPE MEDIA */}
           <div className="grid grid-cols-2 gap-4">
             <button
@@ -75,7 +75,7 @@ export default function NewGalleryPage() {
           {/* SUMBER MEDIA */}
           <div className="space-y-3">
             <label className="text-xs font-bold uppercase tracking-widest text-gold">Sumber Media</label>
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <label className="flex items-center gap-2 cursor-pointer group">
                 <input 
                   type="radio" 

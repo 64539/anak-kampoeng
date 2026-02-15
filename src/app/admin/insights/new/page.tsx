@@ -35,7 +35,7 @@ export default function NewInsightPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-20">
+    <div className="max-w-4xl mx-auto space-y-8 pb-24 px-4">
       <div className="flex items-center gap-4">
         <Link href="/admin" className="p-2 bg-white/5 hover:bg-white/10 rounded-full transition-colors">
           <ChevronLeft size={24} className="text-gold" />
@@ -47,7 +47,7 @@ export default function NewInsightPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="glass-card p-8 border-gold/10 space-y-6">
+        <div className="glass-card p-6 md:p-8 border-gold/10 space-y-6">
           {/* COVER IMAGE */}
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Gambar Sampul (Maks 4MB)</label>

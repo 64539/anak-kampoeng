@@ -18,16 +18,16 @@ export default async function AdminLayout({
   // Check database connection
   let isConnected = false;
   try {
-    await db.execute('SELECT 1');
+    await db.execute("SELECT 1");
     isConnected = true;
   } catch (e) {
     isConnected = false;
   }
 
   return (
-    <div className="min-h-screen bg-black flex">
-      {/* Sidebar */}
-      <aside className="w-64 bg-matte-lighter border-r border-gold/10 flex flex-col">
+    <div className="min-h-screen bg-black flex flex-col md:flex-row">
+      {/* Sidebar (Desktop) */}
+      <aside className="hidden md:flex w-64 bg-matte-lighter border-r border-gold/10 flex-col">
         <div className="p-6 border-b border-gold/10">
           <Link href="/" className="text-xl font-black tracking-tighter text-white">
             ANAK <span className="text-gold">KAMPOENG</span>
@@ -67,33 +67,53 @@ export default async function AdminLayout({
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-grow overflow-y-auto bg-black relative">
-        <div className="absolute inset-0 carbon-texture opacity-10 pointer-events-none" />
-        <div className="relative z-10 p-8">
-          {children}
-        </div>
-      </main>
+      <div className="flex-1 flex flex-col">
+        {/* Top Bar (Mobile) */}
+        <header className="md:hidden border-b border-gold/10 bg-matte-lighter">
+          <div className="px-4 py-3 flex items-center justify-between">
+            <Link href="/" className="text-lg font-black tracking-tighter text-white">
+              ANAK <span className="text-gold">KAMPOENG</span>
+            </Link>
+            <div className="flex items-center gap-2">
+              <Database size={16} className="text-gold" />
+              <div className="flex items-center gap-1">
+                <div className={`w-2 h-2 rounded-full ${isConnected ? "bg-green-500" : "bg-red-500"}`} />
+                <span className="text-[10px] uppercase font-bold text-gray-500">
+                  {isConnected ? "Online" : "Offline"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </header>
 
-      {/* Bottom Navigation (Mobile) */}
-      <nav className="fixed bottom-0 left-0 right-0 md:hidden bg-matte-lighter border-t border-gold/10 flex justify-around py-3">
-        <Link href="/admin/dashboard" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-          <LayoutDashboard size={18} className="text-gold" />
-          <span>Dashboard</span>
-        </Link>
-        <Link href="/admin/users" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-          <Users size={18} className="text-gold" />
-          <span>Users</span>
-        </Link>
-        <Link href="/admin/gallery" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-          <ImageIcon size={18} className="text-gold" />
-          <span>Galeri</span>
-        </Link>
-        <Link href="/admin/insights" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-          <FileText size={18} className="text-gold" />
-          <span>Wawasan</span>
-        </Link>
-      </nav>
+        {/* Main Content */}
+        <main className="flex-grow overflow-y-auto bg-black relative">
+          <div className="absolute inset-0 carbon-texture opacity-10 pointer-events-none" />
+          <div className="relative z-10 p-4 pb-24 md:p-8 md:pb-8">
+            {children}
+          </div>
+        </main>
+
+        {/* Bottom Navigation (Mobile) */}
+        <nav className="fixed bottom-0 left-0 right-0 md:hidden bg-matte-lighter border-t border-gold/10 flex justify-around py-3">
+          <Link href="/admin/dashboard" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <LayoutDashboard size={18} className="text-gold" />
+            <span>Dashboard</span>
+          </Link>
+          <Link href="/admin/users" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <Users size={18} className="text-gold" />
+            <span>Users</span>
+          </Link>
+          <Link href="/admin/gallery" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <ImageIcon size={18} className="text-gold" />
+            <span>Galeri</span>
+          </Link>
+          <Link href="/admin/insights" className="flex flex-col items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <FileText size={18} className="text-gold" />
+            <span>Wawasan</span>
+          </Link>
+        </nav>
+      </div>
     </div>
   );
 }
